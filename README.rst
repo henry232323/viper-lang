@@ -28,7 +28,7 @@ The dev version can be installed via
 
 .. code:: sh
 
-    pip install -U git+https://github.com/IAmTomahawkx/viper-lang
+    python -m pip install -U git+https://github.com/IAmTomahawkx/viper-lang
 
 And can be imported into your project
 
@@ -46,7 +46,7 @@ The asyncio docs can be found `here <https://docs.python.org/3/library/asyncio.h
 
     import viper
     import asyncio
-    code = '$myvar = "hi"'
+    code = 'myvar = "hi"'
     asyncio.run(viper.eval(code))
 
 or
@@ -63,7 +63,7 @@ you can also pass defaults to be injected into the namespace, as such
 
     import asyncio
     import viper
-    asyncio.run(viper.eval("say($myvar)", {"myvar": "blue"}))
+    asyncio.run(viper.eval("say(myvar)", {"myvar": "blue"}))
 
 another way to pass defaults is to pass a Viper namespace to the eval
 
@@ -77,7 +77,7 @@ another way to pass defaults is to pass a Viper namespace to the eval
     # creating a static variable
     namespace['mystaticvar'] = "red", True
 
-    asyncio.run(viper.eval("say($myvar)", namespace=namespace))
+    asyncio.run(viper.eval("say(myvar)", namespace=namespace))
 
 you can disable "unsafe" builtins such as file reading/writing by passing the `safe` keyword to `viper.eval`/`viper.eval_file`.
 
@@ -86,7 +86,7 @@ you can disable "unsafe" builtins such as file reading/writing by passing the `s
     import asyncio
     import viper
 
-    asyncio.run(viper.eval('$myvar = read("names.txt")', safe=True)) # raises VP_NameError,
+    asyncio.run(viper.eval('myvar = read("names.txt")', safe=True)) # raises VP_NameError,
     # as the variable `read` doesnt exist due to safe mode
 
 Speaking of errors, Viper stack traces are now available. They can be accessed by printing out `error.format_stack()` on any VP_Error.
@@ -115,17 +115,16 @@ Syntax
 
 Variables
 ~~~~~~~~~~
-variables are set like in python, but with a dollar sign ($) in front of the name. variables are retrieved in the same way,
-the name with a dollar sign ($) in front. variables can be marked as `static` by putting `static` in front of the variable
+variables are set like in python. variables are retrieved in the same way. variables can be marked as `static` by putting `static` in front of the variable
 name. static variables cannot be changed by anything other than intervention in python code
 
 .. code-block::
 
-    $myvar = "red"
+    myvar = "red"
 
-    static $mystaticvar = "blue"
+    static mystaticvar = "blue"
 
-    $mystaticvar = "hello"  <-- StaticError
+    mystaticvar = "hello"  <-- StaticError
 
 functions
 ~~~~~~~~~~
@@ -185,18 +184,18 @@ a full example
 
 .. code-block::
 
-    static $globalvar = "hi"
+    $globalvar = "hi"
 
     func name(arg, ?arg1) {
-        $var = 1
-        if ($var is 1) {
-            $var += 1
+        var = 1
+        if (var is 1) {
+            var += 1
         }
-        else if ($var is not 1) {
-            $var = "stuff"
+        else if (var is not 1) {
+            var = "stuff"
         }
         else {
-            $var = none
+            var = none
         }
     }
 
